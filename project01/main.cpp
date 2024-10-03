@@ -1,3 +1,11 @@
+//
+// Open Street Map
+// 
+// Helena Yuan
+// Northwestern University
+// CS 211
+// 
+
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -24,13 +32,13 @@ int main ()
 
     osmLoadMapFile(filename, xmldoc);
 
-    // all node things
+    // initializes all node objects
     Nodes nodes;
 
     nodes.readMapNodes(xmldoc);
     cout << "# of nodes: " << nodes.getNumMapNodes() << endl;
 
-    // all building things
+    // initializes all building objects
     Buildings buildings;
     buildings.readMapBuildings(xmldoc);
     cout << "# of buildings: " << buildings.getNumMapBuildings() << endl;
@@ -41,11 +49,13 @@ int main ()
         cout << "Enter building name (partial or complete), or * to list, or $ to end" << endl;
         getline(cin, command);
 
+        // return list of all buildings
         if (command == "*") {
             for (Building& building : buildings.MapBuildings) {
                 cout << building.ID << ": " << building.Name << ", " << building.StreetAddress << endl;
             }
         } 
+        // output buildings that includes user input
         else {
             bool found = false;
             for (Building& building : buildings.MapBuildings) {
@@ -73,13 +83,14 @@ int main ()
                     }
                 }
             }
+            // if building was not found
             if (found != true) {
                 cout << "No such building" << endl;
             }
         }
     }
 
-    // ending output
+    // ending output summary
     cout << endl;
     cout << "** Done **" << endl;
 

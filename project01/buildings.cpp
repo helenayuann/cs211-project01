@@ -7,6 +7,7 @@
 // Northwestern University
 // CS 211
 // 
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -19,9 +20,17 @@
 
 using namespace std;
 
+//
+// readMapBuildings
+// 
+// Given an XML document, reads through the document and
+// stores all buildings into given vector.
+//
 void Buildings::readMapBuildings(XMLDocument& xmldoc) {
     XMLElement* osm = xmldoc.FirstChildElement("osm");
     XMLElement* way = osm->FirstChildElement("way");
+
+    // loops through all the ways
     while (way != nullptr)
     {
         if (osmContainsKeyValue(way, "building", "university")) {
@@ -36,7 +45,8 @@ void Buildings::readMapBuildings(XMLDocument& xmldoc) {
 
             XMLElement* nd = way->FirstChildElement("nd");
             Building B(id, name, streetAddr);
-
+            
+            // loops through each node definition
             while (nd != nullptr)
             {
                 const XMLAttribute* ndref = nd->FindAttribute("ref");
@@ -53,6 +63,9 @@ void Buildings::readMapBuildings(XMLDocument& xmldoc) {
     }
 }
 
+// 
+// accessors / getters
+//
 int Buildings::getNumMapBuildings() const {
   return (int) this->MapBuildings.size();
 }
