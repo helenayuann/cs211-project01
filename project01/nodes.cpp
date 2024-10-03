@@ -110,20 +110,48 @@ bool Nodes::find(long long id, double& lat, double& lon, bool& isEntrance) const
   //
   // linear search:
   //
-  for (Node N : this->MapNodes)
-  {
-    if (N.getID() == id) {
-      lat = N.getLat();
-      lon = N.getLon();
-      isEntrance = N.getIsEntrance();
+  //for (Node N : this->MapNodes)
+  //{
+  //  if (N.getID() == id) {
+  //    lat = N.getLat();
+  //    lon = N.getLon();
+  //    isEntrance = N.getIsEntrance();
+  //
+  //    return true;
+  //  }
+  //}
+  //
+
+  //
+  // binary search: jump in the middle, and if not found, search to
+  // the left if the element is smaller or to the right if bigger.
+  //
+  int low = 0;
+  int high = (int)this->MapNodes.size() - 1;
+
+  while (low <= high) {
+    int mid = low + ((high - low) / 2);
+
+    long long nodeid = this->MapNodes[mid].getID();
+
+    if (id == nodeid) { // found!
+      lat = this->MapNodes[mid].getLat();
+      lon = this->MapNodes[mid].getLon();
+      isEntrance = this->MapNodes[mid].getIsEntrance();
 
       return true;
     }
+    else if (id < nodeid) { // search left:
+      high = mid - 1;
+    }
+    else { // search right:
+      low = mid + 1;
+    }
   }
-
   //
   // if get here, not found:
   //
+
   return false;
 }
 
