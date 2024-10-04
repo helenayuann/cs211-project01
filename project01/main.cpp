@@ -49,6 +49,11 @@ int main ()
         cout << "Enter building name (partial or complete), or * to list, or $ to end" << endl;
         getline(cin, command);
 
+        // ends loop
+        if (command == "$") {
+            break;
+        }
+
         // return list of all buildings
         if (command == "*") {
             for (Building& building : buildings.MapBuildings) {
